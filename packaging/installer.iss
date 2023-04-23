@@ -1,6 +1,6 @@
 #define Version Trim(FileRead(FileOpen("..\VERSION")))
-#define PluginName "Pamplejuce"
-#define Publisher "Melatonin"
+#define PluginName "Empy"
+#define Publisher "Wildergarden"
 #define Year GetDateTimeString("yyyy","","")
 
 [Setup]
