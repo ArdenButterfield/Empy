@@ -68,10 +68,35 @@ target_compile_features("${PROJECT_NAME}" PRIVATE cxx_std_20)
 
 # Manually list all .h and .cpp files for the plugin
 set(SourceFiles
-    Source/PluginEditor.h
-    Source/PluginProcessor.h
-    Source/PluginEditor.cpp
-    Source/PluginProcessor.cpp)
+    Source/RootMeanSquare.h
+	Source/ControllerListener.cpp
+	Source/FrequencyGraph.cpp
+	Source/utils.h
+	Source/ControlParameter.h
+	Source/guielements
+	Source/guielements/StickBlinker.h
+	Source/guielements/BigPanel.cpp
+	Source/guielements/StickBlinker.cpp
+	Source/guielements/BigPanel.h
+	Source/EmpyModel.cpp
+	Source/PluginEditor.h
+	Source/mdct.cpp
+	Source/PluginProcessor.h
+	Source/LookFeel.h
+	Source/RootMeanSquare.cpp
+	Source/ControlParameter.cpp
+	Source/ChunkProcessor.h
+	Source/LookFeel.cpp
+	Source/ControllerListener.h
+	Source/PluginProcessor.cpp
+	Source/AbsoluteThreshold.cpp
+	Source/mdct.h
+	Source/AbsoluteThreshold.h
+	Source/ChunkProcessor.cpp
+	Source/FrequencyGraph.h
+	Source/PluginEditor.cpp
+	Source/EmpyModel.h
+)
 target_sources("${PROJECT_NAME}" PRIVATE ${SourceFiles})
 
 # No, we don't want our source buried in extra nested folders
@@ -81,11 +106,14 @@ set_target_properties("${PROJECT_NAME}" PROPERTIES FOLDER "")
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/Source PREFIX "" FILES ${SourceFiles})
 
 # Setup our binary data as a target
-juce_add_binary_data(Assets SOURCES pamplejuce.png)
+juce_add_binary_data(fonts SOURCES 
+    fonts/Gontserrat-Regular.ttf
+    fonts/bedstead/bedstead-boldsemicondensed.otf
+    fonts/bedstead/bedstead-semicondensed.otf)
 
 # Required for Linux happiness:
 # See https://forum.juce.com/t/loading-pytorch-model-using-binarydata/39997/2
-set_target_properties(Assets PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+set_target_properties(fonts PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 # Clean up folder organization on Xcode.
 # It tucks the Plugin varieties into a "Targets" folder and generate an Xcode Scheme manually
@@ -107,7 +135,7 @@ foreach(target ${FORMATS} "All")
             XCODE_GENERATE_SCHEME ON)
     endif()
 endforeach()
-set_target_properties(Assets PROPERTIES FOLDER "Targets")
+set_target_properties(fonts PROPERTIES FOLDER "Targets")
 
 
 target_compile_definitions("${PROJECT_NAME}"
@@ -119,7 +147,7 @@ target_compile_definitions("${PROJECT_NAME}"
 
 target_link_libraries("${PROJECT_NAME}"
     PRIVATE
-    Assets
+    fonts
     PUBLIC
     juce::juce_audio_utils
     juce::juce_audio_processors
