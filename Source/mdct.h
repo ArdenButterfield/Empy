@@ -23,11 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <stdexcept>
-#include <math.h>
-#include "JuceHeader.h" // fft
+#include <cmath>
+
 #include <complex> // complex numbers
 #include <cmath> // log2()
 #include <vector>
+
+#include <juce_dsp/juce_dsp.h>
 
 #include "utils.h"
 

@@ -28,11 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdexcept>
 #include <iostream>
 #include <algorithm>    // std::min, std::max
-#include <math.h> // log10
+#include <cmath> // log10
 #include <stdlib.h> // rand, srand
 #include <vector>
 #include <array>
-#include <JuceHeader.h>
+
+#include <juce_audio_basics/juce_audio_basics.h>
 
 #include "mdct.h"
 #include "ControlParameter.h"

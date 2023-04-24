@@ -109,7 +109,8 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/Source PREFIX "" FILES ${SourceFil
 juce_add_binary_data(fonts SOURCES 
     fonts/Gontserrat-Regular.ttf
     fonts/bedstead/bedstead-boldsemicondensed.otf
-    fonts/bedstead/bedstead-semicondensed.otf)
+    fonts/bedstead/bedstead-semicondensed.otf
+	fonts/bedstead/bedstead-boldextended.otf)
 
 # Required for Linux happiness:
 # See https://forum.juce.com/t/loading-pytorch-model-using-binarydata/39997/2
@@ -146,14 +147,20 @@ target_compile_definitions("${PROJECT_NAME}"
     JUCE_VST3_CAN_REPLACE_VST2=0)
 
 target_link_libraries("${PROJECT_NAME}"
-    PRIVATE
-    fonts
     PUBLIC
-    juce::juce_audio_utils
-    juce::juce_audio_processors
-    juce::juce_recommended_config_flags
-    juce::juce_recommended_lto_flags
-    juce::juce_recommended_warning_flags)
+    fonts)
+
+target_link_libraries("${PROJECT_NAME}"
+		PUBLIC
+		juce::juce_audio_utils
+		juce::juce_audio_processors
+		juce::juce_dsp
+		juce::juce_graphics
+		juce::juce_gui_basics
+		juce::juce_gui_extra
+		juce::juce_recommended_config_flags
+		juce::juce_recommended_lto_flags
+		juce::juce_recommended_warning_flags)
 
 # When present, use Intel IPP for performance on Windows
 if(WIN32) # Can't use MSVC here, as it won't catch Clang on Windows

@@ -24,15 +24,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
 
-#include <JuceHeader.h>
+#include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_events/juce_events.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+#include <juce_graphics/juce_graphics.h>
 
-#include "PluginProcessor.h"
-#include "FrequencyGraph.h"
-#include "utils.h"
-#include "guielements/BigPanel.h"
 #include "ControllerListener.h"
+#include "FrequencyGraph.h"
 #include "LookFeel.h"
+#include "PluginProcessor.h"
+#include "guielements/BigPanel.h"
 #include "guielements/StickBlinker.h"
+#include "juce_core/system/juce_PlatformDefs.h"
+#include "utils.h"
 
 class EmpyAudioProcessorEditor:
         public juce::AudioProcessorEditor,

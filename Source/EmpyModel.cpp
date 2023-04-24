@@ -221,7 +221,6 @@ void EmpyModel::set_packet_loss(const floattype probability,
     // If there is a probabilty q of us leaving the loss each sample, we will stay
     // in the loss state, on average, for (1 - q) / q (= sum(n:0->inf)n*q*(1-q)^n)
     // samples. Solving for q, we get q = 1 / (samle_length + 1)
-    std::cout << "length: " << length << "\n";
     if (length >= max_length) {
         lossModel.q = 0.0;
     } else {

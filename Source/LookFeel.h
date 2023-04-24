@@ -17,7 +17,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#include <JuceHeader.h>
+#include <juce_gui_basics/juce_gui_basics.h>
+#include <juce_graphics/juce_graphics.h>
+#include "BinaryData.h"
 
 #include "ControlParameter.h"
 
@@ -33,7 +35,7 @@ class EmpyLookAndFeel : public juce::LookAndFeel_V4
 {
 public:
     EmpyLookAndFeel();
-    ~EmpyLookAndFeel();
+    ~EmpyLookAndFeel() override;
     
     
     void drawRotarySlider (juce::Graphics& g,
