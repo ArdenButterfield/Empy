@@ -177,6 +177,7 @@ void EmpyModel::set_mask_threshold(const floattype new_threshold)
 {
     
     masking_amount = linpower(new_threshold * 1.4, 1.0);
+
 }
 
 void EmpyModel::set_spread_distance(const floattype new_distance)
@@ -188,7 +189,6 @@ void EmpyModel::set_spread_distance(const floattype new_distance)
         return;
     }
     
-    std::cout << new_distance << "\n";
     kernel.resize(new_kernel_size);
     kernel_size = new_kernel_size;
     kernel_center = std::floor(new_distance);

@@ -246,6 +246,6 @@ void EmpyAudioProcessorEditor::set_active(ControlParameter* c, bool active)
 {
     if (c->active != active) {
         c->active = active;
-        c->controller->repaint();
+        // c->controller->repaint();
     }
 }
