@@ -80,9 +80,12 @@ juce::Path FrequencyGraph::build_path(std::vector<floattype>& amplitudes,
     if (amplitudes.size() != x_positions.size()) {
         resize(amplitudes.size());
     }
-    
     juce::Path path;
-    
+
+    if (amplitudes.size() == 0) {
+        return path;
+    }
+
     const floattype rescaler = 1 / (amp_max - amp_min);
     x = x_positions[leftmost_x_position];
     y = window_h - window_h * ((amplitudes[leftmost_x_position] - amp_min) * rescaler);
@@ -133,6 +136,10 @@ ShadingPath FrequencyGraph::build_shading_path(std::vector<floattype>& amplitude
     if (amplitudes.size() != x_positions.size()) {
         resize(amplitudes.size());
     }
+
+    if (amplitudes.size() == 0) {
+        return shadingPath;
+    }
         
     const floattype rescaler = 1 / (amp_max - amp_min);
     bool path_started = false;
@@ -176,8 +183,6 @@ ShadingPath FrequencyGraph::build_shading_path(std::vector<floattype>& amplitude
 
 void FrequencyGraph::paint (juce::Graphics& g)
 {
-    
-    
     if (enabled) {
         g.fillAll (BACKGROUND_COLOR);
         

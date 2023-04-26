@@ -286,7 +286,6 @@ void EmpyAudioProcessor::update_parameters()
     empyModel.set_spread_distance(static_cast<juce::AudioParameterFloat*>(control_parameters[2].audio_parameter)->get());
     
     empyModel.set_bit_reduction_above_threshold(static_cast<juce::AudioParameterFloat*>(control_parameters[3].audio_parameter)->get());
-    
     empyModel.set_speed(static_cast<juce::AudioParameterFloat*>(control_parameters[4].audio_parameter)->get());
     
     empyModel.set_perceptual_curve(static_cast<juce::AudioParameterFloat*>(control_parameters[9].audio_parameter)->get());
@@ -294,24 +293,22 @@ void EmpyAudioProcessor::update_parameters()
     empyModel.set_mix(static_cast<juce::AudioParameterFloat*>(control_parameters[10].audio_parameter)->get());
     
     empyModel.set_gate_ratio(static_cast<juce::AudioParameterFloat*>(control_parameters[11].audio_parameter)->get());
-    
-    int mdct_size_options[] = {4,8,16,32,64,128,256,512,1024,2048,4096};
-    int mdct_size_index = static_cast<juce::AudioParameterChoice*>(control_parameters[5].audio_parameter)->getIndex() - 1;
+
+    int mdct_size_options[] = { 4,4,8,16,32,64,128,256,512,1024,2048,4096};
+    int mdct_size_index = static_cast<juce::AudioParameterChoice*>(control_parameters[5].audio_parameter)->getIndex();
     int new_mdct_size = mdct_size_options[mdct_size_index];
     empyModel.set_mdct_size(new_mdct_size);
-    
     if (new_mdct_size != getLatencySamples()) {
         setLatencySamples(mdct_size_options[mdct_size_index]);
     }
     empyModel.set_packet_loss(static_cast<juce::AudioParameterFloat*>(control_parameters[6].audio_parameter)->get(),
                               static_cast<juce::AudioParameterFloat*>(control_parameters[7].audio_parameter)->get(),
                               control_parameters[7].max_val);
-    
     empyModel.set_bias(static_cast<juce::AudioParameterFloat*>(control_parameters[8].audio_parameter)->get());
 }
 
 void EmpyAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
-{    
+{
     update_parameters();
     
     juce::ScopedNoDenormals noDenormals;
@@ -326,6 +323,7 @@ void EmpyAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...

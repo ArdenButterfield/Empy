@@ -143,7 +143,6 @@ void EmpyAudioProcessorEditor::paint (juce::Graphics& g)
 
 void EmpyAudioProcessorEditor::resized()
 {
-
     const int gutter = 10;
     const int top = gutter;
     const int bottom = getHeight() - gutter;
@@ -183,6 +182,7 @@ void EmpyAudioProcessorEditor::sliderValueChanged(juce::Slider* changed_slider)
         }
         
     }
+
 }
 
 void EmpyAudioProcessorEditor::comboBoxChanged(juce::ComboBox* changed_combobox)
@@ -199,6 +199,7 @@ void EmpyAudioProcessorEditor::comboBoxChanged(juce::ComboBox* changed_combobox)
             }
         }
     }
+
 }
 
 void EmpyAudioProcessorEditor::timerCallback()
@@ -246,6 +247,6 @@ void EmpyAudioProcessorEditor::set_active(ControlParameter* c, bool active)
 {
     if (c->active != active) {
         c->active = active;
-        // c->controller->repaint();
+        c->controller->repaint();
     }
 }

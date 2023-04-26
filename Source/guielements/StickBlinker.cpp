@@ -50,9 +50,11 @@ void StickBlinker::setEmpyModel(EmpyModel* em)
 
 void StickBlinker::timerCallback()
 {
-    bool new_on = empyModel->is_stuck();
-    if (new_on != on) {
-        on = new_on;
-        // repaint();
+    if (empyModel != nullptr) {
+        bool new_on = empyModel->is_stuck();
+        if (new_on != on) {
+            on = new_on;
+            repaint();
+        }
     }
 }

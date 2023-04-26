@@ -247,7 +247,6 @@ void EmpyModel::set_speed(const floattype new_speed)
 void EmpyModel::set_mdct_size(const floattype new_size)
 {
     if (new_size != MDCT_LINES) {
-        std:: cout << new_size << "\n";
         prepare(new_size, SAMPLE_RATE, num_channels);
     }
 }
