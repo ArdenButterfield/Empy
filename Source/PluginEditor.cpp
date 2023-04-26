@@ -74,7 +74,8 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     juce::Slider* curve = static_cast<juce::Slider *>((*control_parameters)[9].controller.get());
     
     gate_ratio->setSkewFactorFromMidPoint(10.0);
-    
+
+    std::cout << "set left sliders\n";
     leftPanel.set_sliders(mask_distance,
                           speed,
                           gate_ratio,
@@ -88,7 +89,8 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     juce::Slider* mix = static_cast<juce::Slider *>((*control_parameters)[10].controller.get());
     
     stick_length->setSkewFactorFromMidPoint(0.3);
-    
+
+    std::cout << "set right sliders\n";
     rightPanel.set_sliders(quantization,
                            stick_prob,
                            stick_length,
@@ -98,10 +100,12 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     middlePanel.set_sliders(bias_slider);
     
     juce::ComboBox* resolution_combobox = static_cast<juce::ComboBox *>((*control_parameters)[5].controller.get());
+    std::cout << "set combobox\n";
     frequencyResolutionPanel.set_combobox(resolution_combobox);
-    
+    std::cout << "making controller listener\n";
     controllerListener = std::make_unique<ControllerListener>(control_parameters, &infoPanel, &titlePanel);
-    
+
+    std::cout << "timer\n";
     startTimer(100);
 
     setSize (760, 500);
