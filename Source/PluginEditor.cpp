@@ -154,6 +154,7 @@ void EmpyAudioProcessorEditor::paint (juce::Graphics& g)
 
 void EmpyAudioProcessorEditor::resized()
 {
+    std::cout << "ape resize\n";
     const int gutter = 10;
     const int top = gutter;
     const int bottom = getHeight() - gutter;
@@ -176,6 +177,7 @@ void EmpyAudioProcessorEditor::resized()
     rightPanel.setBounds(right - right_part_width, bottom_part_start, right_part_width, bottom - bottom_part_start);
     frequencyGraph.setBounds(middle_part_start, bottom_part_start + middlePanel.getHeight() + gutter, middle_part_width, 240);
     frequencyResolutionPanel.setBounds(middle_part_start, frequencyGraph.getBottom() + gutter, middle_part_width, bottom - (frequencyGraph.getBottom() + gutter));
+    std::cout << "finish ape resize\n";
 }
 
 void EmpyAudioProcessorEditor::sliderValueChanged(juce::Slider* changed_slider)
