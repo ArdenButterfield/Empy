@@ -31,9 +31,13 @@ TEST_CASE ("Boot performance")
 
         // due to complex construction logic of the editor, let's measure open/close together
         meter.measure ([&] (int i) {
+            std::cout << "creating editor\n";
             auto editor = plugin.createEditorIfNeeded();
+            std::cout << "to delete\n";
             plugin.editorBeingDeleted (editor);
+            std::cout << "deleting editor\n";
             delete editor;
+            std::cout << "get active editor\n";
             return plugin.getActiveEditor();
         });
     };
