@@ -35,7 +35,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "PluginProcessor.h"
 #include "guielements/BigPanel.h"
 #include "guielements/StickBlinker.h"
-#include "juce_core/system/juce_PlatformDefs.h"
 #include "utils.h"
 
 class EmpyAudioProcessorEditor:
