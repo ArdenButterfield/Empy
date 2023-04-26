@@ -51,7 +51,7 @@ public:
     juce::Rectangle<int> draw_beveled_rectangle(juce::Graphics& g, juce::Rectangle<int> rect, bool raised);
 
 protected:
-    juce::Rectangle<int> setUsableBounds();
+    void setUsableBounds();
     juce::Rectangle<int> usable_bounds;
     const int LINE_WIDTH = 2; // For bevel
 };
