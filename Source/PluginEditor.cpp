@@ -175,7 +175,7 @@ void EmpyAudioProcessorEditor::resized()
     infoPanel.setBounds(middle_part_start, top, right - middle_part_start, top_part_height);
     std::cout << "left\n";
     std::cout << gutter << " " << bottom_part_start << " " << left_part_width << " " << bottom - bottom_part_start << "\n";
-    std::cout << "lp " << leftPanel << "\n";
+    std::cout << "lp " << &leftPanel << "\n";
     leftPanel.setBounds(gutter, bottom_part_start, left_part_width, bottom - bottom_part_start);
     std::cout << "mid\n";
     middlePanel.setBounds(middle_part_start, bottom_part_start, middle_part_width, middle_panel_height);
