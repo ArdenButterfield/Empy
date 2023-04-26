@@ -105,7 +105,7 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     startTimer(100);
 
     setSize (760, 500);
-    std::cout << "set lookfeel\n;
+    std::cout << "set lookfeel\n";
     setLookAndFeel(&empyLookAndFeel);
 
     empyLookAndFeel.set_control_parameters(control_parameters);
