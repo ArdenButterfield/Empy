@@ -108,9 +108,7 @@ void LeftPanel::paint (juce::Graphics& g)
 
 void LeftPanel::resized()
 {
-    std::cout << "in lp resize\n";
     setUsableBounds();
-    std::cout << "make rects\n";
     header = usable_bounds.withHeight(TITLE_SECTION_HEIGHT);
     
     dynamic_section = usable_bounds.withTrimmedTop(TITLE_SECTION_HEIGHT).withTrimmedRight(SLIDERBOX_WIDTH);
@@ -128,11 +126,6 @@ void LeftPanel::resized()
     static_amount_box = static_section.withTrimmedTop(SUBHEADING_HEIGHT).withTrimmedBottom(curve_box_height);
     static_curve_box = static_section.withTrimmedTop(SUBHEADING_HEIGHT).withTrimmedTop(static_amount_box.getHeight());
     dynamic_amount_box = dynamic_right_column.withTrimmedBottom(curve_box_height);
-    std::cout << "set slider bounds\n";
-    for (auto& s : {masking_distance_slider, speed_slider, gate_strength_slider, dynamic_amount_slider, static_amount_slider, curve_slider}) {
-        std::cout << s << " ";
-    }
-    std::cout << "\n";
     masking_distance_slider->setBounds(mask_distance_box.withTrimmedTop(H3_HEIGHT));
     speed_slider->setBounds(speed_box.withTrimmedTop(H3_HEIGHT));
     gate_strength_slider->setBounds(gate_strength_box.withTrimmedTop(H3_HEIGHT));
@@ -140,8 +133,7 @@ void LeftPanel::resized()
     dynamic_amount_slider->setBounds(dynamic_amount_box.withTrimmedTop(10).withTrimmedBottom(10));
     static_amount_slider->setBounds(static_amount_box.withTrimmedTop(10).withTrimmedBottom(10));
     curve_slider->setBounds(static_curve_box);
-    std::cout << "done resizing\n";
-    
+
 }
 
 void LeftPanel::set_sliders(juce::Slider* mask_distance,

@@ -26,7 +26,6 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     control_parameters = c;
 
     for (auto &c : *control_parameters) {
-        std::cout << "APE initializing controller " << c.name << "\n";
         c.controller_label.setFont (juce::Font (16.0f, juce::Font::bold));
         c.controller_label.setText(c.name, juce::dontSendNotification);
         c.controller_label.setColour (juce::Label::textColourId, juce::Colours::white);
@@ -53,9 +52,8 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     }
     
     
-    std::cout << "freq graph set lines\n";
     frequencyGraph.set_lines(&(audioProcessor.empyModel.graphScaledLines));
-    std::cout << "add and make visible\n";
+
     addAndMakeVisible(frequencyGraph);
     addAndMakeVisible(leftPanel);
     addAndMakeVisible(middlePanel);
@@ -64,8 +62,6 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     addAndMakeVisible(infoPanel);
     addAndMakeVisible(frequencyResolutionPanel);
 
-    std::cout << "making sliders\n";
-    
     juce::Slider* mask_distance = static_cast<juce::Slider *>((*control_parameters)[2].controller.get());
     juce::Slider* speed = static_cast<juce::Slider *>((*control_parameters)[4].controller.get());
     juce::Slider* gate_ratio = static_cast<juce::Slider *>((*control_parameters)[11].controller.get());
@@ -75,7 +71,6 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     
     gate_ratio->setSkewFactorFromMidPoint(10.0);
 
-    std::cout << "set left sliders\n";
     leftPanel.set_sliders(mask_distance,
                           speed,
                           gate_ratio,
@@ -90,7 +85,6 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     
     stick_length->setSkewFactorFromMidPoint(0.3);
 
-    std::cout << "set right sliders\n";
     rightPanel.set_sliders(quantization,
                            stick_prob,
                            stick_length,
@@ -100,18 +94,11 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     middlePanel.set_sliders(bias_slider);
     
     juce::ComboBox* resolution_combobox = static_cast<juce::ComboBox *>((*control_parameters)[5].controller.get());
-    std::cout << "set combobox\n";
     frequencyResolutionPanel.set_combobox(resolution_combobox);
-    std::cout << "making controller listener\n";
     controllerListener = std::make_unique<ControllerListener>(control_parameters, &infoPanel, &titlePanel);
 
-    std::cout << "timer\n";
     startTimer(100);
-    std::cout << "set size\n";
-    std::cout << "message man " << juce::MessageManager::getInstanceWithoutCreating() << "\n";
-    std::cout << "we have man " << juce::MessageManager::getInstanceWithoutCreating()->currentThreadHasLockedMessageManager() << "\n";
     setSize (760, 500);
-    std::cout << "set lookfeel\n";
     setLookAndFeel(&empyLookAndFeel);
 
     empyLookAndFeel.set_control_parameters(control_parameters);
@@ -154,7 +141,6 @@ void EmpyAudioProcessorEditor::paint (juce::Graphics& g)
 
 void EmpyAudioProcessorEditor::resized()
 {
-    std::cout << "ape resize\n";
     const int gutter = 10;
     const int top = gutter;
     const int bottom = getHeight() - gutter;
@@ -169,23 +155,14 @@ void EmpyAudioProcessorEditor::resized()
     const int middle_part_start = left + left_part_width + gutter;
     const int bottom_part_start = top_part_height + gutter + gutter;
     const int middle_part_width = right - right_part_width - gutter - middle_part_start;
-    std::cout << "title\n";
+
     titlePanel.setBounds(left, top, left_part_width, top_part_height);
-    std::cout << "info\n";
     infoPanel.setBounds(middle_part_start, top, right - middle_part_start, top_part_height);
-    std::cout << "left\n";
-    std::cout << gutter << " " << bottom_part_start << " " << left_part_width << " " << bottom - bottom_part_start << "\n";
-    std::cout << "lp " << &leftPanel << "\n";
     leftPanel.setBounds(gutter, bottom_part_start, left_part_width, bottom - bottom_part_start);
-    std::cout << "mid\n";
     middlePanel.setBounds(middle_part_start, bottom_part_start, middle_part_width, middle_panel_height);
-    std::cout << "right\n";
     rightPanel.setBounds(right - right_part_width, bottom_part_start, right_part_width, bottom - bottom_part_start);
-    std::cout << "freq graph\n";
     frequencyGraph.setBounds(middle_part_start, bottom_part_start + middlePanel.getHeight() + gutter, middle_part_width, 240);
-    std::cout << "freq res\n";
     frequencyResolutionPanel.setBounds(middle_part_start, frequencyGraph.getBottom() + gutter, middle_part_width, bottom - (frequencyGraph.getBottom() + gutter));
-    std::cout << "finish ape resize\n";
 }
 
 void EmpyAudioProcessorEditor::sliderValueChanged(juce::Slider* changed_slider)
@@ -225,7 +202,6 @@ void EmpyAudioProcessorEditor::comboBoxChanged(juce::ComboBox* changed_combobox)
 
 void EmpyAudioProcessorEditor::timerCallback()
 {
-    std::cout << "timer callback\n";
     check_active();
     
     juce::AudioParameterFloat* ap_float;
@@ -252,7 +228,6 @@ void EmpyAudioProcessorEditor::check_active()
      control parameters to see if the slider is active. If not, it grays out
      the slider.
      */
-    std::cout << "check active\n";
     bool dynamic_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[0].audio_parameter)->get() != 0.0);
     bool static_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[1].audio_parameter)->get() != 0.0);
     bool stick_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[6].audio_parameter)->get() != 0.0);

@@ -96,6 +96,7 @@ set(SourceFiles
 	Source/FrequencyGraph.h
 	Source/PluginEditor.cpp
 	Source/EmpyModel.h
+    Source/BinaryData.h
 )
 target_sources("${PROJECT_NAME}" PRIVATE ${SourceFiles})
 
