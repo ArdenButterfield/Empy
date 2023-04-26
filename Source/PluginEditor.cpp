@@ -108,6 +108,8 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     std::cout << "timer\n";
     startTimer(100);
     std::cout << "set size\n";
+    std::cout << "message man " << juce::MessageManager::getInstanceWithoutCreating() << "\n";
+    std::cout << "we have man " << juce::MessageManager::getInstanceWithoutCreating()->currentThreadHasLockedMessageManager() << "\n";
     setSize (760, 500);
     std::cout << "set lookfeel\n";
     setLookAndFeel(&empyLookAndFeel);
