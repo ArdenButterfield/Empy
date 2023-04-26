@@ -24,9 +24,9 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     control_parameters = c;
-    
-    
+
     for (auto &c : *control_parameters) {
+        std::cout << "APE initializing controller " << c.name << "\n";
         c.controller_label.setFont (juce::Font (16.0f, juce::Font::bold));
         c.controller_label.setText(c.name, juce::dontSendNotification);
         c.controller_label.setColour (juce::Label::textColourId, juce::Colours::white);
@@ -53,8 +53,9 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     }
     
     
-    
+    std::cout << "freq graph set lines\n";
     frequencyGraph.set_lines(&(audioProcessor.empyModel.graphScaledLines));
+    std::cout << "add and make visible\n";
     addAndMakeVisible(frequencyGraph);
     addAndMakeVisible(leftPanel);
     addAndMakeVisible(middlePanel);
@@ -62,6 +63,8 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     addAndMakeVisible(titlePanel);
     addAndMakeVisible(infoPanel);
     addAndMakeVisible(frequencyResolutionPanel);
+
+    std::cout << "making sliders\n";
     
     juce::Slider* mask_distance = static_cast<juce::Slider *>((*control_parameters)[2].controller.get());
     juce::Slider* speed = static_cast<juce::Slider *>((*control_parameters)[4].controller.get());
@@ -100,9 +103,11 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     controllerListener = std::make_unique<ControllerListener>(control_parameters, &infoPanel, &titlePanel);
     
     startTimer(100);
+
     setSize (760, 500);
-    
+    std::cout << "set lookfeel\n;
     setLookAndFeel(&empyLookAndFeel);
+
     empyLookAndFeel.set_control_parameters(control_parameters);
     
     frequencyGraph.set_control_parameters(control_parameters);
@@ -204,6 +209,7 @@ void EmpyAudioProcessorEditor::comboBoxChanged(juce::ComboBox* changed_combobox)
 
 void EmpyAudioProcessorEditor::timerCallback()
 {
+    std::cout << "timer callback\n";
     check_active();
     
     juce::AudioParameterFloat* ap_float;
@@ -230,6 +236,7 @@ void EmpyAudioProcessorEditor::check_active()
      control parameters to see if the slider is active. If not, it grays out
      the slider.
      */
+    std::cout << "check active\n";
     bool dynamic_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[0].audio_parameter)->get() != 0.0);
     bool static_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[1].audio_parameter)->get() != 0.0);
     bool stick_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[6].audio_parameter)->get() != 0.0);
