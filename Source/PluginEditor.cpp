@@ -169,13 +169,19 @@ void EmpyAudioProcessorEditor::resized()
     const int middle_part_start = left + left_part_width + gutter;
     const int bottom_part_start = top_part_height + gutter + gutter;
     const int middle_part_width = right - right_part_width - gutter - middle_part_start;
-    
+    std::cout << "title\n";
     titlePanel.setBounds(left, top, left_part_width, top_part_height);
+    std::cout << "info\n";
     infoPanel.setBounds(middle_part_start, top, right - middle_part_start, top_part_height);
+    std::cout << "left\n";
     leftPanel.setBounds(gutter, bottom_part_start, left_part_width, bottom - bottom_part_start);
+    std::cout << "mid\n";
     middlePanel.setBounds(middle_part_start, bottom_part_start, middle_part_width, middle_panel_height);
+    std::cout << "right\n";
     rightPanel.setBounds(right - right_part_width, bottom_part_start, right_part_width, bottom - bottom_part_start);
+    std::cout << "freq graph\n";
     frequencyGraph.setBounds(middle_part_start, bottom_part_start + middlePanel.getHeight() + gutter, middle_part_width, 240);
+    std::cout << "freq res\n";
     frequencyResolutionPanel.setBounds(middle_part_start, frequencyGraph.getBottom() + gutter, middle_part_width, bottom - (frequencyGraph.getBottom() + gutter));
     std::cout << "finish ape resize\n";
 }
