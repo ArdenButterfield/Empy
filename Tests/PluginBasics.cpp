@@ -21,8 +21,8 @@ TEST_CASE("Plugin instance name", "[name]")
              Catch::Matchers::Equals("Empy"));
 }
 
-#ifdef PAMPLEJUCE_IPP
-#include <ipps.h>
+// #ifdef PAMPLEJUCE_IPP
+// #include <ipps.h>
 
 TEST_CASE("IPP version", "[ipp]")
 {
