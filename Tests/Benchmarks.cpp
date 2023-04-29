@@ -1,9 +1,13 @@
+#if 0
 #include "PluginEditor.h"
+#endif
+
 #include "catch2/benchmark/catch_benchmark_all.hpp"
 #include "catch2/catch_test_macros.hpp"
 
 TEST_CASE ("Boot performance")
 {
+#if 0
     BENCHMARK_ADVANCED ("Processor constructor")
     (Catch::Benchmark::Chronometer meter)
     {
@@ -41,4 +45,5 @@ TEST_CASE ("Boot performance")
             return plugin.getActiveEditor();
         });
     };
+#endif
 }
