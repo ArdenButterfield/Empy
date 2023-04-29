@@ -34,7 +34,7 @@ EmpyAudioProcessor::EmpyAudioProcessor()
     // see https://forum.juce.com/t/failing-assert-in-juce-audioprocessor/51926 for more info on parameter id stuff
     
     
-    std::cout << "empy audio processor constructor\n";
+    
     
     auto maskthresh = new juce::AudioParameterFloat(juce::ParameterID {"dynamicthresh", 1}, "dynamic threshold", juce::NormalisableRange<float>(0.0f, 1.0f), 0.5);
     control_parameters[0].audio_parameter = maskthresh;
@@ -153,7 +153,6 @@ EmpyAudioProcessor::EmpyAudioProcessor()
     }
     
     empyModel.set_control_parameters(&control_parameters);
-    std::cout << "end empy audio processor constructor\n";
 }
 
 EmpyAudioProcessor::~EmpyAudioProcessor()
@@ -238,11 +237,9 @@ void EmpyAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    /*
     empyModel.prepare(1024,
                       sampleRate,
                       std::min(getTotalNumInputChannels(),getTotalNumOutputChannels()));
-                      */
     
 }
 
@@ -282,7 +279,6 @@ bool EmpyAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) con
 
 void EmpyAudioProcessor::update_parameters()
 {
-    /*
     empyModel.set_mask_threshold(static_cast<juce::AudioParameterFloat*>(control_parameters[0].audio_parameter)->get());
     
     empyModel.set_absolute_threshold(static_cast<juce::AudioParameterFloat*>(control_parameters[1].audio_parameter)->get());
@@ -309,7 +305,6 @@ void EmpyAudioProcessor::update_parameters()
                               static_cast<juce::AudioParameterFloat*>(control_parameters[7].audio_parameter)->get(),
                               control_parameters[7].max_val);
     empyModel.set_bias(static_cast<juce::AudioParameterFloat*>(control_parameters[8].audio_parameter)->get());
-    */
 }
 
 void EmpyAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
@@ -336,9 +331,7 @@ void EmpyAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::M
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
-    /*
     empyModel.processBlock(buffer);
-    */
 
 }
 
