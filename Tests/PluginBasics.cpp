@@ -5,6 +5,7 @@
 
 TEST_CASE("one is equal to one", "[dummy]")
 {
+  std::cout << "test 1 is 1"
   REQUIRE(1 == 1);
 }
 
@@ -15,8 +16,10 @@ EmpyAudioProcessor testPlugin;
 
 TEST_CASE("Plugin instance name", "[name]")
 {
+  std::cout << "test plugin name"
   CHECK_THAT(testPlugin.getName().toStdString(),
              Catch::Matchers::Equals("Empy"));
+
 }
 
 #ifdef PAMPLEJUCE_IPP

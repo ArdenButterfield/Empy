@@ -34,7 +34,7 @@ EmpyAudioProcessor::EmpyAudioProcessor()
     // see https://forum.juce.com/t/failing-assert-in-juce-audioprocessor/51926 for more info on parameter id stuff
     
     
-    
+    std::cout << "empy audio processor constructor\n";
     
     auto maskthresh = new juce::AudioParameterFloat(juce::ParameterID {"dynamicthresh", 1}, "dynamic threshold", juce::NormalisableRange<float>(0.0f, 1.0f), 0.5);
     control_parameters[0].audio_parameter = maskthresh;
@@ -153,6 +153,7 @@ EmpyAudioProcessor::EmpyAudioProcessor()
     }
     
     empyModel.set_control_parameters(&control_parameters);
+    std::cout << "end empy audio processor constructor\n";
 }
 
 EmpyAudioProcessor::~EmpyAudioProcessor()
