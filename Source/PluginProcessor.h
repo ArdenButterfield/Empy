@@ -73,7 +73,7 @@ public:
     
     std::array<ControlParameter, NUM_CONTROL_PARAMETERS> control_parameters;
     
-    // EmpyModel empyModel;
+    EmpyModel empyModel;
 
 private:
     void update_parameters();
