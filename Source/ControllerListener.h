@@ -42,6 +42,6 @@ private:
     std::array<ControlParameter, NUM_CONTROL_PARAMETERS>* control_parameters;
     InfoPanel* infoPanel;
     TitlePanel* titlePanel;
-    std::string titleName = "Empy";
+    std::string titleName = "Empy v1.0.0";
     std::string titleDescription = "By Arden Butterfield, 2023";
 };
