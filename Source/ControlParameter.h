@@ -33,13 +33,11 @@ typedef union ControllerUnion {
 
 enum ControllerType {
     slider,
-    combobox
+    combobox,
+    boolSlider
 };
 
 struct ControlParameter {
-    ControlParameter() {
-        ;
-    }
     juce::Identifier identifier;
     juce::RangedAudioParameter* audio_parameter;
     

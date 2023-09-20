@@ -19,18 +19,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <juce_gui_basics/juce_gui_basics.h>
 
+#include "../LookFeel.h"
 #include "../EmpyModel.h"
 
 //==============================================================================
 /*
 */
-class StickBlinker  : public juce::Component, public juce::Timer
+class StickBlinker  : public juce::ToggleButton, public juce::Timer
 {
 public:
     StickBlinker();
     ~StickBlinker() override;
 
-    void paint (juce::Graphics&) override;
+    void paintButton (juce::Graphics &g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
     void resized() override;
     void setEmpyModel(EmpyModel* em);
     void timerCallback() override;

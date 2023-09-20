@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ControlParameter.h"
 
-#define PI 3.14159265359
 
 // BEDSTEAD FONT
 // https://www.1001fonts.com/bedstead-font.html
@@ -86,4 +85,5 @@ public:
     
 private:
     std::array<ControlParameter, NUM_CONTROL_PARAMETERS>* controlParameters;
+    const float PI = 3.1415926535;
 };

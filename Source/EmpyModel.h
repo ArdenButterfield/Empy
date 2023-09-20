@@ -123,6 +123,7 @@ public:
     void set_perceptual_curve(const floattype new_perceptual_curve);
     void set_mix(const floattype new_mix);
     void set_gate_ratio(const floattype new_strength);
+    void set_stick_freeze(bool new_stickfreeze);
     
     void prepare_graph_lines();
     
@@ -170,5 +171,7 @@ private:
     int num_channels;
     
     bool in_loss_state;
+
+    bool stick_freeze;
     
 };

@@ -84,7 +84,7 @@ void EmpyModel::process(int start_pos)
     
     in_loss_state = lossModel.tick();
     for (int c = 0; c < num_channels; ++c) {
-        if (in_loss_state) {
+        if (is_stuck()) {
             chunk_processors[c].recover_packet();
         } else {
             chunk_processors[c].prev_processed_lines = chunk_processors[c].processed_freq_lines;
@@ -336,5 +336,9 @@ void EmpyModel::prepare_graph_lines()
 
 bool EmpyModel::is_stuck()
 {
-    return in_loss_state;
+    return in_loss_state || stick_freeze;
+}
+void EmpyModel::set_stick_freeze (bool new_stickfreeze)
+{
+    stick_freeze = new_stickfreeze;
 }

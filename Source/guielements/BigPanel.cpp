@@ -212,7 +212,6 @@ void MiddlePanel::set_sliders(juce::Slider* bias)
 
 RightPanel::RightPanel()
 {
-    addAndMakeVisible(stickBlinker);
 }
 
 void RightPanel::paint (juce::Graphics& g)
@@ -259,19 +258,23 @@ void RightPanel::resized()
     
     mix_slider->setBounds(mix_window.withTrimmedTop(mix_header.getHeight()));
     
-    stickBlinker.setBounds(stick_slider_area.withSizeKeepingCentre(10, 10).withY(stick_slider_area.getBottom() - 20));
+    stickBlinker->setBounds(stick_slider_area.withSizeKeepingCentre(20, 20).withY(stick_slider_area.getBottom() - 30));
+
 }
 
 void RightPanel::set_sliders(juce::Slider* quantization,
                              juce::Slider* stick_prob,
                              juce::Slider* stick_length,
-                             juce::Slider* mix)
+                             juce::Slider* mix,
+                             StickBlinker* blinker)
 {
+
     quantization_slider = quantization;
     stick_prob_slider = stick_prob;
     stick_length_slider = stick_length;
     mix_slider = mix;
-    
+    stickBlinker = blinker;
+
     quantization_slider->setSliderStyle(juce::Slider::RotaryVerticalDrag);
     stick_prob_slider->setSliderStyle(juce::Slider::RotaryVerticalDrag);
     stick_length_slider->setSliderStyle(juce::Slider::RotaryVerticalDrag);
@@ -286,11 +289,14 @@ void RightPanel::set_sliders(juce::Slider* quantization,
     stick_prob_slider->setNumDecimalPlacesToDisplay(3);
     stick_length_slider->setNumDecimalPlacesToDisplay(3);
     mix_slider->setNumDecimalPlacesToDisplay(2);
-    
-    addAndMakeVisible(quantization_slider);
-    addAndMakeVisible(stick_prob_slider);
-    addAndMakeVisible(stick_length_slider);
-    addAndMakeVisible(mix_slider);
+
+
+    // zorder at bottom so that stick blinker button is focused even though there's some overlap
+    addAndMakeVisible(quantization_slider, 0);
+    addAndMakeVisible(stick_prob_slider, 0);
+    addAndMakeVisible(stick_length_slider, 0);
+    addAndMakeVisible(mix_slider, 0);
+    addAndMakeVisible(stickBlinker, -1);
 }
 
 // TITLE PANEL

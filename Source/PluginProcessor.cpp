@@ -136,7 +136,15 @@ EmpyAudioProcessor::EmpyAudioProcessor()
     control_parameters[11].min_val = 1;
     control_parameters[11].max_val = 100;
     control_parameters[11].controller_type = slider;
-    
+
+    auto stick_toggle = new juce::AudioParameterBool(juce::ParameterID {"sticktoggle", 1}, "Stick toggle", false);
+    control_parameters[12].audio_parameter = stick_toggle;
+    control_parameters[12].name = "Stick Toggle";
+    control_parameters[12].description = "Freeze Empy in the stuck position";
+    control_parameters[12].min_val = 0;
+    control_parameters[12].max_val = 1;
+    control_parameters[12].controller_type = boolSlider;
+
     for (const auto &c : control_parameters) {
         addParameter(c.audio_parameter);
     }
@@ -305,6 +313,7 @@ void EmpyAudioProcessor::update_parameters()
                               static_cast<juce::AudioParameterFloat*>(control_parameters[7].audio_parameter)->get(),
                               control_parameters[7].max_val);
     empyModel.set_bias(static_cast<juce::AudioParameterFloat*>(control_parameters[8].audio_parameter)->get());
+    empyModel.set_stick_freeze(static_cast<juce::AudioParameterBool*>(control_parameters[12].audio_parameter)->get());
 }
 
 void EmpyAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)

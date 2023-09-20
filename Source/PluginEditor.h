@@ -35,12 +35,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "PluginProcessor.h"
 #include "guielements/BigPanel.h"
 #include "guielements/StickBlinker.h"
+#include "guielements/StickBlinker.h"
 #include "utils.h"
 
 class EmpyAudioProcessorEditor:
         public juce::AudioProcessorEditor,
         public juce::Slider::Listener,
         public juce::ComboBox::Listener,
+        public juce::Button::Listener,
         public juce::Timer
 {
 public:
@@ -52,6 +54,7 @@ public:
     
     void sliderValueChanged(juce::Slider*) override;
     void comboBoxChanged(juce::ComboBox*) override;
+    void buttonClicked(juce::Button*) override;
     void timerCallback() override;
      
 private:

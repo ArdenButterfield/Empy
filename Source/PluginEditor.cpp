@@ -42,12 +42,17 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
             // slider->setTextBoxStyle(juce::Slider::TextBoxBelow , false, 60, 20);
             slider->addListener(this);
             // addAndMakeVisible(c.controller.get());
-        } else {
+        } else if (c.controller_type == combobox) {
             c.controller = std::make_unique<juce::ComboBox>();
             juce::ComboBox* cbox = static_cast<juce::ComboBox *>(c.controller.get());
             cbox->addItemList(juce::StringArray{"4","8","16","32","64","128","256","512","1024","2048","4096"}, 1);
             cbox->addListener(this);
             // addAndMakeVisible(c.controller.get());
+        } else if (c.controller_type == boolSlider) {
+            c.controller = std::make_unique<StickBlinker>();
+            auto button = static_cast<juce::Button *>(c.controller.get());
+            button->addListener(this);
+
         }
     }
     
@@ -62,12 +67,12 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     addAndMakeVisible(infoPanel);
     addAndMakeVisible(frequencyResolutionPanel);
 
-    juce::Slider* mask_distance = static_cast<juce::Slider *>((*control_parameters)[2].controller.get());
-    juce::Slider* speed = static_cast<juce::Slider *>((*control_parameters)[4].controller.get());
-    juce::Slider* gate_ratio = static_cast<juce::Slider *>((*control_parameters)[11].controller.get());
-    juce::Slider* dynamic_amount = static_cast<juce::Slider *>((*control_parameters)[0].controller.get());
-    juce::Slider* static_amount = static_cast<juce::Slider *>((*control_parameters)[1].controller.get());
-    juce::Slider* curve = static_cast<juce::Slider *>((*control_parameters)[9].controller.get());
+    auto mask_distance = static_cast<juce::Slider *>((*control_parameters)[2].controller.get());
+    auto speed = static_cast<juce::Slider *>((*control_parameters)[4].controller.get());
+    auto gate_ratio = static_cast<juce::Slider *>((*control_parameters)[11].controller.get());
+    auto dynamic_amount = static_cast<juce::Slider *>((*control_parameters)[0].controller.get());
+    auto static_amount = static_cast<juce::Slider *>((*control_parameters)[1].controller.get());
+    auto curve = static_cast<juce::Slider *>((*control_parameters)[9].controller.get());
     
     gate_ratio->setSkewFactorFromMidPoint(10.0);
 
@@ -78,22 +83,23 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
                           static_amount,
                           curve);
     
-    juce::Slider* quantization = static_cast<juce::Slider *>((*control_parameters)[3].controller.get());
-    juce::Slider* stick_prob = static_cast<juce::Slider *>((*control_parameters)[6].controller.get());
-    juce::Slider* stick_length = static_cast<juce::Slider *>((*control_parameters)[7].controller.get());
-    juce::Slider* mix = static_cast<juce::Slider *>((*control_parameters)[10].controller.get());
+    auto quantization = static_cast<juce::Slider *>((*control_parameters)[3].controller.get());
+    auto stick_prob = static_cast<juce::Slider *>((*control_parameters)[6].controller.get());
+    auto stick_length = static_cast<juce::Slider *>((*control_parameters)[7].controller.get());
+    auto mix = static_cast<juce::Slider *>((*control_parameters)[10].controller.get());
+    auto blinker = static_cast<StickBlinker *>((*control_parameters)[12].controller.get());
     
     stick_length->setSkewFactorFromMidPoint(0.3);
 
     rightPanel.set_sliders(quantization,
                            stick_prob,
                            stick_length,
-                           mix);
+                           mix, blinker);
     
-    juce::Slider* bias_slider = static_cast<juce::Slider *>((*control_parameters)[8].controller.get());
+    auto bias_slider = static_cast<juce::Slider *>((*control_parameters)[8].controller.get());
     middlePanel.set_sliders(bias_slider);
     
-    juce::ComboBox* resolution_combobox = static_cast<juce::ComboBox *>((*control_parameters)[5].controller.get());
+    auto resolution_combobox = static_cast<juce::ComboBox *>((*control_parameters)[5].controller.get());
     frequencyResolutionPanel.set_combobox(resolution_combobox);
     controllerListener = std::make_unique<ControllerListener>(control_parameters, &infoPanel, &titlePanel);
 
@@ -105,7 +111,7 @@ EmpyAudioProcessorEditor::EmpyAudioProcessorEditor (EmpyAudioProcessor& p, std::
     
     frequencyGraph.set_control_parameters(control_parameters);
     
-    rightPanel.stickBlinker.setEmpyModel(&(audioProcessor.empyModel));
+    blinker->setEmpyModel(&(audioProcessor.empyModel));
     
     timerCallback();
 }
@@ -123,11 +129,14 @@ EmpyAudioProcessorEditor::~EmpyAudioProcessorEditor()
     
     for (auto &c : *control_parameters) {
         if (c.controller_type == slider) {
-            juce::Slider* slider = static_cast<juce::Slider *>(c.controller.get());
+            auto slider = static_cast<juce::Slider *>(c.controller.get());
             slider->removeListener(this);
-        } else {
-            juce::ComboBox* cbox = static_cast<juce::ComboBox *>(c.controller.get());
+        } else if (c.controller_type == combobox){
+            auto cbox = static_cast<juce::ComboBox *>(c.controller.get());
             cbox->removeListener(this);
+        } else if (c.controller_type == boolSlider) {
+            auto button = static_cast<juce::Button*> (c.controller.get());
+            button->removeListener(this);
         }
     }
 }
@@ -170,7 +179,7 @@ void EmpyAudioProcessorEditor::sliderValueChanged(juce::Slider* changed_slider)
     juce::AudioParameterFloat* ap_float;
     for (auto &c : *control_parameters) {
         if (c.controller_type == slider) {
-            juce::Slider* slider = static_cast<juce::Slider *>(c.controller.get());
+            auto slider = static_cast<juce::Slider *>(c.controller.get());
             if (changed_slider == slider) {
                 c.audio_parameter->beginChangeGesture();
                 ap_float = static_cast<juce::AudioParameterFloat*>(c.audio_parameter);
@@ -178,9 +187,7 @@ void EmpyAudioProcessorEditor::sliderValueChanged(juce::Slider* changed_slider)
                 c.audio_parameter->endChangeGesture();
             }
         }
-        
     }
-
 }
 
 void EmpyAudioProcessorEditor::comboBoxChanged(juce::ComboBox* changed_combobox)
@@ -188,7 +195,7 @@ void EmpyAudioProcessorEditor::comboBoxChanged(juce::ComboBox* changed_combobox)
     juce::AudioParameterChoice* ap_choice;
     for (auto &c : *control_parameters) {
         if (c.controller_type == combobox) {
-            juce::ComboBox* combobox = static_cast<juce::ComboBox *>(c.controller.get());
+            auto combobox = static_cast<juce::ComboBox *>(c.controller.get());
             if (changed_combobox == combobox) {
                 c.audio_parameter->beginChangeGesture();
                 ap_choice = static_cast<juce::AudioParameterChoice*>(c.audio_parameter);
@@ -197,24 +204,42 @@ void EmpyAudioProcessorEditor::comboBoxChanged(juce::ComboBox* changed_combobox)
             }
         }
     }
+}
 
+void EmpyAudioProcessorEditor::buttonClicked (juce::Button* changed_button)
+{
+    juce::AudioParameterBool* ap_bool;
+    for (auto &c : *control_parameters) {
+        if (c.controller_type == boolSlider) {
+            auto button = static_cast<juce::Button *>(c.controller.get());
+            if (changed_button == button) {
+                c.audio_parameter->beginChangeGesture();
+                ap_bool = static_cast<juce::AudioParameterBool*>(c.audio_parameter);
+                (*ap_bool) = button->getToggleState();
+                std::cout << c.name << " button clicked to " << button->getToggleState() << "\n";
+                c.audio_parameter->endChangeGesture();
+            }
+        }
+    }
 }
 
 void EmpyAudioProcessorEditor::timerCallback()
 {
     check_active();
-    
-    juce::AudioParameterFloat* ap_float;
-    juce::AudioParameterChoice* ap_choice;
+
     for (auto &c : *control_parameters) {
         if (c.controller_type == combobox) {
-            ap_choice = static_cast<juce::AudioParameterChoice*>(c.audio_parameter);
-            juce::ComboBox* combobox = static_cast<juce::ComboBox *>(c.controller.get());
+            auto ap_choice = static_cast<juce::AudioParameterChoice*>(c.audio_parameter);
+            auto combobox = static_cast<juce::ComboBox *>(c.controller.get());
             combobox->setSelectedId(ap_choice->getIndex(), juce::dontSendNotification);
-        } else {
-            ap_float = static_cast<juce::AudioParameterFloat*>(c.audio_parameter);
-            juce::Slider* slider = static_cast<juce::Slider *>(c.controller.get());
+        } else if (c.controller_type == slider) {
+            auto ap_float = static_cast<juce::AudioParameterFloat*>(c.audio_parameter);
+            auto slider = static_cast<juce::Slider *>(c.controller.get());
             slider->setValue(*ap_float, juce::dontSendNotification);
+        } else if (c.controller_type == boolSlider) {
+            auto ap_bool = static_cast<juce::AudioParameterBool*>(c.audio_parameter);
+            auto button = static_cast<juce::Button *>(c.controller.get());
+            button->setToggleState(ap_bool->get(), juce::dontSendNotification);
         }
     }
 }
@@ -231,7 +256,7 @@ void EmpyAudioProcessorEditor::check_active()
     bool dynamic_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[0].audio_parameter)->get() != 0.0);
     bool static_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[1].audio_parameter)->get() != 0.0);
     bool stick_happening = (static_cast<juce::AudioParameterFloat*>((*control_parameters)[6].audio_parameter)->get() != 0.0);
-    
+
     set_active(&(*control_parameters)[4], dynamic_happening); // speed
     set_active(&(*control_parameters)[2], dynamic_happening); // smoothness
     set_active(&(*control_parameters)[9], static_happening); // curve
@@ -240,7 +265,6 @@ void EmpyAudioProcessorEditor::check_active()
     set_active(&(*control_parameters)[7], stick_happening); // stick length
 
 }
-
 void EmpyAudioProcessorEditor::set_active(ControlParameter* c, bool active)
 {
     if (c->active != active) {

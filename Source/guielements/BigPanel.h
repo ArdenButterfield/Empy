@@ -131,10 +131,10 @@ public:
     void set_sliders(juce::Slider* quantization,
                      juce::Slider* stick_prob,
                      juce::Slider* stick_length,
-                     juce::Slider* mix);
+                     juce::Slider* mix,
+                     StickBlinker* blinker);
     
-    StickBlinker stickBlinker;
-    
+
 private:
     juce::Rectangle<int> quantization_window;
     juce::Rectangle<int> stick_window;
@@ -143,15 +143,16 @@ private:
     juce::Rectangle<int> mix_header;
     juce::Rectangle<int> stick_prob_window;
     juce::Rectangle<int> stick_length_window;
-    
+
     const int QUANTIZATION_WINDOW_HEIGHT = 125;
     const int MIX_WINDOW_HEIGHT = 125;
-    
+
     juce::Slider* quantization_slider;
     juce::Slider* stick_prob_slider;
     juce::Slider* stick_length_slider;
     juce::Slider* mix_slider;
-    
+    StickBlinker* stickBlinker;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RightPanel)
 };
 

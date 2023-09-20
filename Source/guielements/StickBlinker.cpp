@@ -22,21 +22,39 @@ StickBlinker::StickBlinker()
 {
     on = false;
     startTimer(60);
+    this->setClickingTogglesState(true);
 }
 
 StickBlinker::~StickBlinker()
 {
 }
 
-void StickBlinker::paint (juce::Graphics& g)
+void StickBlinker::paintButton (juce::Graphics& g, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown)
 {
-    if (on) {
-        g.setColour(juce::Colour(0xff808080));
-        
+    auto lookFeel = EmpyLookAndFeel();
+    juce::Colour fillColor;
+    if (shouldDrawButtonAsDown) {
+        fillColor = lookFeel.BEVEL_BLACK;
+    } else if (getToggleState()) {
+        fillColor = lookFeel.BEVEL_DARK;
+    } else if (shouldDrawButtonAsHighlighted) {
+        fillColor = lookFeel.BEVEL_WHITE;
     } else {
-        g.setColour(juce::Colour(0xffd4d0c8));
+        fillColor = lookFeel.PANEL_BACKGROUND_COLOR;
     }
-    g.fillEllipse(getLocalBounds().toFloat());
+    g.setColour(fillColor);
+    g.fillRect(getLocalBounds());
+
+    if (!getToggleState() && on) {
+        g.setColour(lookFeel.BEVEL_DARK);
+        g.fillRect(getLocalBounds().withSizeKeepingCentre(10,10));
+    }
+
+    g.setColour(lookFeel.BEVEL_BLACK);
+    g.drawRect(getLocalBounds(), 2);
+    g.setColour(lookFeel.BEVEL_WHITE);
+    g.drawRect(getLocalBounds().withTrimmedRight(2).withHeight(2));
+    g.drawRect(getLocalBounds().withTrimmedBottom(2).withWidth(2));
 }
 
 void StickBlinker::resized()
@@ -47,7 +65,6 @@ void StickBlinker::setEmpyModel(EmpyModel* em)
 {
     empyModel = em;
 }
-
 void StickBlinker::timerCallback()
 {
     if (empyModel != nullptr) {

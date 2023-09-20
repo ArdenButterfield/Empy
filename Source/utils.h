@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Control parameters is a std::array rather than a std::vector, so we store the
 // number of parameters in it and pass that around.
 // TODO: Might be worth just changing it to be a vector?
-const int NUM_CONTROL_PARAMETERS = 12;
+const int NUM_CONTROL_PARAMETERS = 13;
 
 #define USE_DOUBLE 0
 
