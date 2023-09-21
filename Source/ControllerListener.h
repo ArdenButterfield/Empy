@@ -35,9 +35,8 @@ public:
                        InfoPanel* ip,
                        TitlePanel* tp);
     ~ControllerListener();
-    void mouseEnter(const juce::MouseEvent& event);
-    void mouseExit(const juce::MouseEvent& event);
-    void mouseDoubleClick(const juce::MouseEvent& event);
+    void mouseEnter(const juce::MouseEvent& event) override;
+    void mouseExit(const juce::MouseEvent& event) override;
 private:
     std::array<ControlParameter, NUM_CONTROL_PARAMETERS>* control_parameters;
     InfoPanel* infoPanel;
